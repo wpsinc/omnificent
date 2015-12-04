@@ -1,0 +1,74 @@
+{
+  "family": "calypso-laravel-production-task-definition",
+  "volumes": [
+    {
+      "host": {
+        "sourcePath": "/home/ec2-user/web-settings/production/calypso-laravel/.env"
+      },
+      "name": "CalypsoVolume"
+    }
+  ],
+  "containerDefinitions": [
+    {
+      "essential": true,
+      "image": "wpsinc/calypso-laravel:%REVISION%",
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 100,
+      "mountPoints": [
+        {
+          "sourceVolume": "CalypsoVolume",
+          "containerPath": "/var/www/html/.env"
+        }
+      ],
+      "name": "CalypsoLaravel"
+    },
+    {
+      "essential": true,
+      "image": "wpsinc/calypso-php-fpm:latest",
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 200,
+      "name": "CalypsoPhpFpm",
+      "volumesFrom": [
+        {
+          "sourceContainer": "CalypsoLaravel"
+        }
+      ]
+    },
+    {
+      "essential": true,
+      "image": "wpsinc/calypso-nginx:latest",
+      "links": [
+        "CalypsoPhpFpm"
+      ],
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 100,
+      "name": "CalypsoNginx",
+      "portMappings": [
+        {
+          "hostPort": 60003,
+          "containerPort": 80
+        }
+      ],
+      "volumesFrom": [
+        {
+          "sourceContainer": "CalypsoLaravel"
+        }
+      ]
+    }
+  ]
+}
