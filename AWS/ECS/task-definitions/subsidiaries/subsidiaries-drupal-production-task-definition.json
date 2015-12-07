@@ -1,0 +1,164 @@
+{
+  "family": "subsidiaries-drupal-production-task-definition",
+  "volumes": [
+    {
+      "host": {
+        "sourcePath": "/home/ec2-user/web-settings/production/default/settings.php"
+      },
+      "name": "VolumeDefault"
+    },
+    {
+      "host": {
+        "sourcePath": "/home/ec2-user/web-settings/production/flyracing/settings.php"
+      },
+      "name": "VolumeFlyRacing"
+    },
+    {
+      "host": {
+        "sourcePath": "/home/ec2-user/web-settings/production/harddrive/settings.php"
+      },
+      "name": "VolumeHardDrive"
+    },
+    {
+      "host": {
+        "sourcePath": "/home/ec2-user/web-settings/production/highway21/settings.php"
+      },
+      "name": "VolumeHighway21"
+    },
+    {
+      "host": {
+        "sourcePath": "/home/ec2-user/web-settings/production/kabuto/settings.php"
+      },
+      "name": "VolumeKabutoUsa"
+    },
+    {
+      "host": {
+        "sourcePath": "/home/ec2-user/web-settings/production/sedonatires/settings.php"
+      },
+      "name": "VolumeSedonaTires"
+    },
+    {
+      "host": {
+        "sourcePath": "/home/ec2-user/web-settings/production/shinkotireusa/settings.php"
+      },
+      "name": "VolumeShinkoTireUsa"
+    },
+    {
+      "host": {
+        "sourcePath": "/home/ec2-user/web-settings/production/triple9optics/settings.php"
+      },
+      "name": "VolumeTriple9Optics"
+    },
+    {
+      "host": {
+        "sourcePath": "/home/ec2-user/web-settings/production/wps-inc/settings.php"
+      },
+      "name": "VolumeWpsInc"
+    },
+    {
+      "host": {
+        "sourcePath": "/home/ec2-user/web-settings/production/wpsgarage/settings.php"
+      },
+      "name": "VolumeWpsGarage"
+    }
+  ],
+  "containerDefinitions": [
+    {
+      "essential": true,
+      "image": "wpsinc/subsidiaries-drupal:%REVISION%",
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 100,
+      "mountPoints": [
+        {
+          "sourceVolume": "VolumeDefault",
+          "containerPath": "/var/www/html/sites/default/settings.php"
+        },
+        {
+          "sourceVolume": "VolumeFlyRacing",
+          "containerPath": "/var/www/html/sites/flyracing/settings.php"
+        },
+        {
+          "sourceVolume": "VolumeHardDrive",
+          "containerPath": "/var/www/html/sites/harddrive/settings.php"
+        },
+        {
+          "sourceVolume": "VolumeHighway21",
+          "containerPath": "/var/www/html/sites/highway21/settings.php"
+        },
+        {
+          "sourceVolume": "VolumeKabutoUsa",
+          "containerPath": "/var/www/html/sites/kabuto/settings.php"
+        },
+        {
+          "sourceVolume": "VolumeSedonaTires",
+          "containerPath": "/var/www/html/sites/sedonatires/settings.php"
+        },
+        {
+          "sourceVolume": "VolumeShinkoTireUsa",
+          "containerPath": "/var/www/html/sites/shinkotireusa/settings.php"
+        },
+        {
+          "sourceVolume": "VolumeTriple9Optics",
+          "containerPath": "/var/www/html/sites/triple9optics/settings.php"
+        },
+        {
+          "sourceVolume": "VolumeWpsInc",
+          "containerPath": "/var/www/html/sites/wps-inc/settings.php"
+        },
+        {
+          "sourceVolume": "VolumeWpsGarage",
+          "containerPath": "/var/www/html/sites/wpsgarage/settings.php"
+        }
+      ],
+      "name": "SubsidiariesDrupal"
+    },
+    {
+      "essential": true,
+      "image": "wpsinc/subsidiaries-nginx:latest",
+      "links": [
+        "SubsidiariesPhpFpm"
+      ],
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 100,
+      "name": "SubsidiariesNginx",
+      "portMappings": [
+        {
+          "hostPort": 60002,
+          "containerPort": 80
+        }
+      ],
+      "volumesFrom": [
+        {
+          "sourceContainer": "SubsidiariesDrupal"
+        }
+      ]
+    },
+    {
+      "essential": true,
+      "image": "wpsinc/subsidiaries-php-fpm:latest",
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 300,
+      "name": "SubsidiariesPhpFpm",
+      "volumesFrom": [
+        {
+          "sourceContainer": "SubsidiariesDrupal"
+        }
+      ]
+    }
+  ]
+}
