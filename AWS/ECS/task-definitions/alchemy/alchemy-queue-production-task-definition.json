@@ -1,0 +1,57 @@
+{
+  "family": "alchemy-queue-production-task-definition",
+  "volumes": [
+    {
+      "host": {
+        "sourcePath": "/home/ec2-user/web-settings/production/alchemy/.env"
+      },
+      "name": "VolumeAlchemy"
+    }
+  ],
+  "containerDefinitions": [
+    {
+      "essential": true,
+      "image": "wpsinc/alchemy-laravel:%REVISION%",
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 100,
+      "mountPoints": [
+        {
+          "sourceVolume": "VolumeAlchemy",
+          "containerPath": "/var/www/html/.env"
+        }
+      ],
+      "name": "AlchemyLaravel"
+    },
+    {
+      "command": [
+        "php",
+        "artisan",
+        "queue:listen",
+        "database",
+        "--timeout=10800",
+        "--tries=1",
+        "--verbose"
+      ],
+      "essential": true,
+      "image": "wpsinc/docker-queue:latest",
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 3000,
+      "name": "AlchemyQueue",
+      "volumesFrom": [
+        {
+          "sourceContainer": "AlchemyLaravel"
+        }
+      ]
+    }
+  ]
+}

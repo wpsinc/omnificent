@@ -1,0 +1,54 @@
+{
+  "family": "alchemy-laravel-production-task-definition",
+  "volumes": [
+    {
+      "host": {
+        "sourcePath": "/home/ec2-user/web-settings/production/alchemy-laravel/.env"
+      },
+      "name": "VolumeAlchemy"
+    }
+  ],
+  "containerDefinitions": [
+    {
+      "essential": true,
+      "image": "wpsinc/alchemy-apache-php:latest",
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 200,
+      "name": "AlchemyApachePhp",
+      "portMappings": [
+        {
+          "hostPort": 60001,
+          "containerPort": 80
+        }
+      ],
+      "volumesFrom": [
+        {
+          "sourceContainer": "AlchemyLaravel"
+        }
+      ]
+    },
+    {
+      "essential": true,
+      "image": "wpsinc/alchemy-laravel:%REVISION%",
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 100,
+      "mountPoints": [
+        {
+          "sourceVolume": "VolumeAlchemy",
+          "containerPath": "/var/www/html/.env"
+        }
+      ],
+      "name": "AlchemyLaravel"
+    }
+  ]
+}
