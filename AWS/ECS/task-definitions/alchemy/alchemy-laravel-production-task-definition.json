@@ -3,7 +3,7 @@
   "volumes": [
     {
       "host": {
-        "sourcePath": "/home/ec2-user/web-settings/production/alchemy-laravel/.env"
+        "sourcePath": "/home/ec2-user/web-settings/production/alchemy/.env"
       },
       "name": "VolumeAlchemy"
     }
