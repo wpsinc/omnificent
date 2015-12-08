@@ -38,7 +38,7 @@
         "--verbose"
       ],
       "essential": true,
-      "image": "wpsinc/docker-queue:latest",
+      "image": "wpsinc/alchemy-queue:latest",
       "logConfiguration": {
         "logDriver": "json-file",
         "options": {
