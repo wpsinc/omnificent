@@ -11,7 +11,7 @@
   "containerDefinitions": [
     {
       "essential": true,
-      "image": "wpsinc/alchemy-laravel:%REVISION%",
+      "image": "wpsinc/alchemy-laravel:latest",
       "logConfiguration": {
         "logDriver": "json-file",
         "options": {
@@ -38,7 +38,7 @@
         "--verbose"
       ],
       "essential": true,
-      "image": "wpsinc/alchemy-queue:latest",
+      "image": "wpsinc/alchemy-queue:%REVISION%",
       "logConfiguration": {
         "logDriver": "json-file",
         "options": {
