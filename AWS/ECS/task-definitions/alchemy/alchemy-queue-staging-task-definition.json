@@ -11,7 +11,7 @@
   "containerDefinitions": [
     {
       "essential": true,
-      "image": "wpsinc/alchemy-laravel:latest",
+      "image": "wpsinc/alchemy-laravel:latest-dev",
       "logConfiguration": {
         "logDriver": "json-file",
         "options": {
