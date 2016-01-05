@@ -1,0 +1,75 @@
+{
+  "family": "novus-api-production-task-definition",
+  "volumes": [
+    {
+      "host": {
+        "sourcePath": "/home/ec2-user/web-settings/production/novus-api-laravel/.env"
+      },
+      "name": "NovusApiVolume"
+    }
+  ],
+  "containerDefinitions": [
+    {
+      "essential": true,
+      "image": "wpsinc/novus-api-laravel:%REVISION%",
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 100,
+      "mountPoints": [
+        {
+          "sourceVolume": "NovusApiVolume",
+          "containerPath": "/var/www/html/.env"
+        }
+      ],
+      "name": "NovusSiteApiLaravel"
+    },
+    {
+      "essential": true,
+      "image": "wpsinc/novus-api-php-fpm:latest",
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 200,
+      "name": "NovusSiteApiPhpFpm",
+      "portMappings": [],
+      "volumesFrom": [
+        {
+          "sourceContainer": "NovusSiteApiLaravel"
+        }
+      ]
+    },
+    {
+      "essential": true,
+      "image": "wpsinc/novus-api-nginx:latest",
+      "links": [
+        "NovusSiteApiPhpFpm"
+      ],
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 100,
+      "name": "NovusSiteApiNginx",
+      "portMappings": [
+        {
+          "hostPort": 60004,
+          "containerPort": 80
+        }
+      ],
+      "volumesFrom": [
+        {
+          "sourceContainer": "NovusSiteApiLaravel"
+        }
+      ]
+    }
+  ]
+}
