@@ -29,23 +29,6 @@
     },
     {
       "essential": true,
-      "image": "wpsinc/calypso-php-fpm:latest",
-      "logConfiguration": {
-        "logDriver": "json-file",
-        "options": {
-          "max-size": "50m"
-        }
-      },
-      "memory": 200,
-      "name": "CalypsoPhpFpm",
-      "volumesFrom": [
-        {
-          "sourceContainer": "CalypsoLaravel"
-        }
-      ]
-    },
-    {
-      "essential": true,
       "image": "wpsinc/calypso-nginx:latest",
       "links": [
         "CalypsoPhpFpm"
@@ -64,6 +47,23 @@
           "containerPort": 80
         }
       ],
+      "volumesFrom": [
+        {
+          "sourceContainer": "CalypsoLaravel"
+        }
+      ]
+    },
+    {
+      "essential": true,
+      "image": "wpsinc/calypso-php-fpm:latest",
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 200,
+      "name": "CalypsoPhpFpm",
       "volumesFrom": [
         {
           "sourceContainer": "CalypsoLaravel"
