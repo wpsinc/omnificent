@@ -1,0 +1,74 @@
+{
+  "family": "hdtwin-laravel-production-task-definition",
+  "volumes": [
+    {
+      "host": {
+        "sourcePath": "/home/ec2-user/web-settings/production/hdtwin-laravel/.env"
+      },
+      "name": "HdtwinVolume"
+    }
+  ],
+  "containerDefinitions": [
+    {
+      "essential": true,
+      "image": "wpsinc/hdtwin-laravel:%REVISION%",
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 100,
+      "mountPoints": [
+        {
+          "sourceVolume": "HdtwinVolume",
+          "containerPath": "/var/www/html/.env"
+        }
+      ],
+      "name": "HdtwinLaravel"
+    },
+    {
+      "essential": true,
+      "image": "wpsinc/hdtwin-nginx:latest",
+      "links": [
+        "HdtwinPhpFpm"
+      ],
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 100,
+      "name": "HdtwinNginx",
+      "portMappings": [
+        {
+          "hostPort": 60004,
+          "containerPort": 80
+        }
+      ],
+      "volumesFrom": [
+        {
+          "sourceContainer": "HdtwinLaravel"
+        }
+      ]
+    },
+    {
+      "essential": true,
+      "image": "wpsinc/hdtwin-php-fpm:latest",
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 200,
+      "name": "HdtwinPhpFpm",
+      "volumesFrom": [
+        {
+          "sourceContainer": "HdtwinLaravel"
+        }
+      ]
+    }
+  ]
+}
