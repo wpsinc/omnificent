@@ -129,7 +129,7 @@
           "max-size": "50m"
         }
       },
-      "memory": 100,
+      "memory": 200,
       "name": "SubsidiariesNginx",
       "portMappings": [
         {
@@ -152,7 +152,7 @@
           "max-size": "50m"
         }
       },
-      "memory": 300,
+      "memory": 400,
       "name": "SubsidiariesPhpFpm",
       "volumesFrom": [
         {
