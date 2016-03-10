@@ -1,0 +1,74 @@
+{
+  "family": "novus-acp-staging-task-definition",
+  "volumes": [
+    {
+      "host": {
+        "sourcePath": "/home/ec2-user/web-settings/staging/novus-acp-laravel/.env"
+      },
+      "name": "NovusAcpVolume"
+    }
+  ],
+  "containerDefinitions": [
+    {
+      "essential": true,
+      "image": "wpsinc/novus-acp-laravel:%REVISION%",
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 100,
+      "mountPoints": [
+        {
+          "sourceVolume": "NovusAcpVolume",
+          "containerPath": "/var/www/html/.env"
+        }
+      ],
+      "name": "NovusAcpLaravel"
+    },
+    {
+      "essential": true,
+      "image": "wpsinc/novus-acp-nginx:latest",
+      "links": [
+        "NovusAcpPhpFpm"
+      ],
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 100,
+      "name": "NovusAcpNginx",
+      "portMappings": [
+        {
+          "hostPort": 50005,
+          "containerPort": 80
+        }
+      ],
+      "volumesFrom": [
+        {
+          "sourceContainer": "NovusAcpLaravel"
+        }
+      ]
+    },
+    {
+      "essential": true,
+      "image": "wpsinc/novus-acp-php-fpm:latest",
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 200,
+      "name": "NovusAcpPhpFpm",
+      "volumesFrom": [
+        {
+          "sourceContainer": "NovusAcpLaravel"
+        }
+      ]
+    }
+  ]
+}
