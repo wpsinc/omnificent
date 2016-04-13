@@ -43,7 +43,7 @@
       "name": "HdtwinNginx",
       "portMappings": [
         {
-          "hostPort": 50004,
+          "hostPort": 50006,
           "containerPort": 80
         }
       ],
