@@ -43,7 +43,7 @@
       "name": "AdMapNginx",
       "portMappings": [
         {
-          "hostPort": 50006,
+          "hostPort": 50007,
           "containerPort": 80
         }
       ],
