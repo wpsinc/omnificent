@@ -1,0 +1,74 @@
+{
+  "family": "ad-map-production-task-definition",
+  "volumes": [
+    {
+      "host": {
+        "sourcePath": "/home/ec2-user/web-settings/production/ad-map-laravel/.env"
+      },
+      "name": "AdMapVolume"
+    }
+  ],
+  "containerDefinitions": [
+    {
+      "essential": true,
+      "image": "wpsinc/ad-map-laravel:%REVISION%",
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 100,
+      "mountPoints": [
+        {
+          "sourceVolume": "AdMapVolume",
+          "containerPath": "/var/www/html/.env"
+        }
+      ],
+      "name": "AdMapLaravel"
+    },
+    {
+      "essential": true,
+      "image": "wpsinc/ad-map-nginx:latest",
+      "links": [
+        "AdMapPhpFpm"
+      ],
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 100,
+      "name": "AdMapNginx",
+      "portMappings": [
+        {
+          "hostPort": 60006,
+          "containerPort": 80
+        }
+      ],
+      "volumesFrom": [
+        {
+          "sourceContainer": "AdMapLaravel"
+        }
+      ]
+    },
+    {
+      "essential": true,
+      "image": "wpsinc/ad-map-php-fpm:latest",
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 200,
+      "name": "AdMapPhpFpm",
+      "volumesFrom": [
+        {
+          "sourceContainer": "AdMapLaravel"
+        }
+      ]
+    }
+  ]
+}
