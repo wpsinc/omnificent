@@ -7,7 +7,7 @@
 # You can specify user data to configure an instance or run a configuration script during launch. If you launch more than one instance at a time, the user data is available to all the instances in that reservation.
 
 # Specify which ECS cluster to associate this instance with.
-echo ECS_CLUSTER=web-production-cluster >> /etc/ecs/ecs.config
+echo ECS_CLUSTER=web-staging-cluster >> /etc/ecs/ecs.config
 
 cd /tmp
 
@@ -21,7 +21,7 @@ python27 get-pip.py
 /usr/local/bin/pip install --upgrade awscli
 
 # Grab all configuration files from S3.
-su - ec2-user -c "aws s3 cp s3://web-settings/production /home/ec2-user/web-settings/production --recursive"
+su - ec2-user -c "aws s3 cp s3://web-settings/staging /home/ec2-user/web-settings/staging --recursive"
 
 # Install the Simple Systems Manager (SSM) for the Amazon EC2 Run Command to manage EC2 instances remotely.
 curl https://amazon-ssm-us-west-2.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm -o amazon-ssm-agent.rpm
