@@ -1,0 +1,54 @@
+{
+  "family": "gmaxhelmet-legacy-staging-task-definition",
+  "volumes": [
+    {
+      "host": {
+        "sourcePath": "/home/ec2-user/web-settings/staging/gmaxhelmet-legacy/settings.php"
+      },
+      "name": "VolumeGmaxHelmet"
+    }
+  ],
+  "containerDefinitions": [
+    {
+      "essential": true,
+      "image": "wpsinc/gmaxhelmet-apache-php:latest",
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 200,
+      "name": "GmaxHelmetApachePhp",
+      "portMappings": [
+        {
+          "hostPort": 50008,
+          "containerPort": 80
+        }
+      ],
+      "volumesFrom": [
+        {
+          "sourceContainer": "GmaxHelmetLegacy"
+        }
+      ]
+    },
+    {
+      "essential": true,
+      "image": "wpsinc/gmaxhelmet-legacy:%REVISION%",
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 100,
+      "mountPoints": [
+        {
+          "sourceVolume": "VolumeGmaxHelmet",
+          "containerPath": "/var/www/html/settings.php"
+        }
+      ],
+      "name": "GmaxHelmetLegacy"
+    }
+  ]
+}
