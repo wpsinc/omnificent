@@ -5,7 +5,13 @@
       "host": {
         "sourcePath": "/home/ec2-user/web-settings/production/gmaxhelmet-legacy/settings.php"
       },
-      "name": "VolumeGmaxHelmet"
+      "name": "VolumeGmaxHelmetSettings"
+    },
+    {
+      "host": {
+        "sourcePath": "/home/ec2-user/web-settings/production/gmaxhelmet-legacy/.htpasswd"
+      },
+      "name": "VolumeGmaxHelmetAdminAuth"
     }
   ],
   "containerDefinitions": [
@@ -44,8 +50,12 @@
       "memory": 100,
       "mountPoints": [
         {
-          "sourceVolume": "VolumeGmaxHelmet",
+          "sourceVolume": "VolumeGmaxHelmetSettings",
           "containerPath": "/var/www/html/settings.php"
+        },
+        {
+          "sourceVolume": "VolumeGmaxHelmetAdminAuth",
+          "containerPath": "/var/www/html/.htpasswd"
         }
       ],
       "name": "GmaxHelmetLegacy"
