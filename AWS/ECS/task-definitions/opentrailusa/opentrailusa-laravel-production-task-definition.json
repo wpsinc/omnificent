@@ -1,0 +1,74 @@
+{
+  "family": "opentrailusa-laravel-production-task-definition",
+  "volumes": [
+    {
+      "host": {
+        "sourcePath": "/home/ec2-user/web-settings/production/opentrailusa-laravel/.env"
+      },
+      "name": "OpentrailusaVolume"
+    }
+  ],
+  "containerDefinitions": [
+    {
+      "essential": true,
+      "image": "wpsinc/opentrailusa-laravel:%REVISION%",
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 100,
+      "mountPoints": [
+        {
+          "sourceVolume": "OpentrailusaVolume",
+          "containerPath": "/var/www/html/.env"
+        }
+      ],
+      "name": "OpentrailusaLaravel"
+    },
+    {
+      "essential": true,
+      "image": "wpsinc/opentrailusa-nginx:latest",
+      "links": [
+        "OpentrailusaPhpFpm"
+      ],
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 100,
+      "name": "OpentrailusaNginx",
+      "portMappings": [
+        {
+          "hostPort": 60009,
+          "containerPort": 80
+        }
+      ],
+      "volumesFrom": [
+        {
+          "sourceContainer": "OpentrailusaLaravel"
+        }
+      ]
+    },
+    {
+      "essential": true,
+      "image": "wpsinc/opentrailusa-php-fpm:latest",
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 200,
+      "name": "OpentrailusaPhpFpm",
+      "volumesFrom": [
+        {
+          "sourceContainer": "OpentrailusaLaravel"
+        }
+      ]
+    }
+  ]
+}
