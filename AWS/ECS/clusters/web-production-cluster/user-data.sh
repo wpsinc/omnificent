@@ -11,6 +11,11 @@ echo ECS_CLUSTER=web-production-cluster >> /etc/ecs/ecs.config
 
 cd /tmp
 
+# Adjust the frequency of the task that cleans up stopped containers. (Default: 3h)
+cat /etc/ecs/ecs.config | grep -v 'ECS_ENGINE_TASK_CLEANUP_WAIT_DURATION' > /tmp/ecs.config
+echo "ECS_ENGINE_TASK_CLEANUP_WAIT_DURATION=10m" >> /tmp/ecs.config
+mv -f /tmp/ecs.config /etc/ecs/
+
 # Download pip.
 curl -O https://bootstrap.pypa.io/get-pip.py
 
