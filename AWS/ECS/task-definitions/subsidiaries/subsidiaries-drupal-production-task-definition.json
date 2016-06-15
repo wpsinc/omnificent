@@ -15,12 +15,6 @@
     },
     {
       "host": {
-        "sourcePath": "/home/ec2-user/web-settings/production/harddrive/settings.php"
-      },
-      "name": "VolumeHardDrive"
-    },
-    {
-      "host": {
         "sourcePath": "/home/ec2-user/web-settings/production/highway21/settings.php"
       },
       "name": "VolumeHighway21"
@@ -81,10 +75,6 @@
         {
           "sourceVolume": "VolumeFlyRacing",
           "containerPath": "/var/www/html/sites/flyracing/settings.php"
-        },
-        {
-          "sourceVolume": "VolumeHardDrive",
-          "containerPath": "/var/www/html/sites/harddrive/settings.php"
         },
         {
           "sourceVolume": "VolumeHighway21",
