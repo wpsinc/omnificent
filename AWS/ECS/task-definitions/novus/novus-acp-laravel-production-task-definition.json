@@ -39,7 +39,7 @@
           "max-size": "50m"
         }
       },
-      "memory": 100,
+      "memory": 200,
       "name": "NovusAcpNginx",
       "portMappings": [
         {
@@ -62,7 +62,7 @@
           "max-size": "50m"
         }
       },
-      "memory": 200,
+      "memory": 300,
       "name": "NovusAcpPhpFpm",
       "volumesFrom": [
         {

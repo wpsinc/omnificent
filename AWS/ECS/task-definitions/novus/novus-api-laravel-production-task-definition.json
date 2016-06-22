@@ -29,24 +29,6 @@
     },
     {
       "essential": true,
-      "image": "wpsinc/novus-api-php-fpm:latest",
-      "logConfiguration": {
-        "logDriver": "json-file",
-        "options": {
-          "max-size": "50m"
-        }
-      },
-      "memory": 200,
-      "name": "NovusApiPhpFpm",
-      "portMappings": [],
-      "volumesFrom": [
-        {
-          "sourceContainer": "NovusApiLaravel"
-        }
-      ]
-    },
-    {
-      "essential": true,
       "image": "wpsinc/novus-api-nginx:latest",
       "links": [
         "NovusApiPhpFpm"
@@ -57,7 +39,7 @@
           "max-size": "50m"
         }
       },
-      "memory": 100,
+      "memory": 200,
       "name": "NovusApiNginx",
       "portMappings": [
         {
@@ -65,6 +47,24 @@
           "containerPort": 80
         }
       ],
+      "volumesFrom": [
+        {
+          "sourceContainer": "NovusApiLaravel"
+        }
+      ]
+    },
+    {
+      "essential": true,
+      "image": "wpsinc/novus-api-php-fpm:latest",
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 300,
+      "name": "NovusApiPhpFpm",
+      "portMappings": [],
       "volumesFrom": [
         {
           "sourceContainer": "NovusApiLaravel"
