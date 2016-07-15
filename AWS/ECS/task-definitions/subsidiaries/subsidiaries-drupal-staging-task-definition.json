@@ -142,7 +142,7 @@
           "max-size": "50m"
         }
       },
-      "memory": 400,
+      "memory": 600,
       "name": "SubsidiariesPhpFpm",
       "volumesFrom": [
         {
