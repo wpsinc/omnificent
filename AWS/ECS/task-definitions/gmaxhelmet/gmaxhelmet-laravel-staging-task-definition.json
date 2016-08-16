@@ -1,0 +1,74 @@
+{
+  "family": "gmaxhelmet-laravel-staging-task-definition",
+  "volumes": [
+    {
+      "host": {
+        "sourcePath": "/home/ec2-user/web-settings/staging/gmaxhelmet-laravel/.env"
+      },
+      "name": "GmaxHelmetVolume"
+    }
+  ],
+  "containerDefinitions": [
+    {
+      "essential": true,
+      "image": "wpsinc/gmaxhelmet-laravel:%REVISION%",
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 100,
+      "mountPoints": [
+        {
+          "sourceVolume": "GmaxHelmetVolume",
+          "containerPath": "/var/www/html/.env"
+        }
+      ],
+      "name": "GmaxHelmetLaravel"
+    },
+    {
+      "essential": true,
+      "image": "wpsinc/gmaxhelmet-nginx:latest",
+      "links": [
+        "GmaxHelmetPhpFpm"
+      ],
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 100,
+      "name": "GmaxHelmetNginx",
+      "portMappings": [
+        {
+          "hostPort": 50011,
+          "containerPort": 80
+        }
+      ],
+      "volumesFrom": [
+        {
+          "sourceContainer": "GmaxHelmetLaravel"
+        }
+      ]
+    },
+    {
+      "essential": true,
+      "image": "wpsinc/gmaxhelmet-php-fpm:latest",
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 200,
+      "name": "GmaxHelmetPhpFpm",
+      "volumesFrom": [
+        {
+          "sourceContainer": "GmaxHelmetLaravel"
+        }
+      ]
+    }
+  ]
+}
