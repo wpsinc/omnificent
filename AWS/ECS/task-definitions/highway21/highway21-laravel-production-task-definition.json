@@ -1,0 +1,74 @@
+{
+  "family": "highway21-laravel-production-task-definition",
+  "volumes": [
+    {
+      "host": {
+        "sourcePath": "/home/ec2-user/web-settings/production/highway21-laravel/.env"
+      },
+      "name": "Highway21Volume"
+    }
+  ],
+  "containerDefinitions": [
+    {
+      "essential": true,
+      "image": "wpsinc/highway21-laravel:%REVISION%",
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 100,
+      "mountPoints": [
+        {
+          "sourceVolume": "Highway21Volume",
+          "containerPath": "/var/www/html/.env"
+        }
+      ],
+      "name": "Highway21Laravel"
+    },
+    {
+      "essential": true,
+      "image": "wpsinc/highway21-nginx:latest",
+      "links": [
+        "Highway21PhpFpm"
+      ],
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 100,
+      "name": "Highway21Nginx",
+      "portMappings": [
+        {
+          "hostPort": 60012,
+          "containerPort": 80
+        }
+      ],
+      "volumesFrom": [
+        {
+          "sourceContainer": "Highway21Laravel"
+        }
+      ]
+    },
+    {
+      "essential": true,
+      "image": "wpsinc/highway21-php-fpm:latest",
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 200,
+      "name": "Highway21PhpFpm",
+      "volumesFrom": [
+        {
+          "sourceContainer": "Highway21Laravel"
+        }
+      ]
+    }
+  ]
+}
