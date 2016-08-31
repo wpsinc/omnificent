@@ -1,17 +1,17 @@
 {
-  "family": "gmaxhelmet-laravel-production-task-definition",
+  "family": "gmaxhelmetsusa-laravel-production-task-definition",
   "volumes": [
     {
       "host": {
-        "sourcePath": "/home/ec2-user/web-settings/production/gmaxhelmet-laravel/.env"
+        "sourcePath": "/home/ec2-user/web-settings/production/gmaxhelmetsusa-laravel/.env"
       },
-      "name": "GmaxHelmetVolume"
+      "name": "GmaxHelmetsUsaVolume"
     }
   ],
   "containerDefinitions": [
     {
       "essential": true,
-      "image": "wpsinc/gmaxhelmet-laravel:%REVISION%",
+      "image": "wpsinc/gmaxhelmetsusa-laravel:%REVISION%",
       "logConfiguration": {
         "logDriver": "json-file",
         "options": {
@@ -21,17 +21,17 @@
       "memory": 100,
       "mountPoints": [
         {
-          "sourceVolume": "GmaxHelmetVolume",
+          "sourceVolume": "GmaxHelmetsUsaVolume",
           "containerPath": "/var/www/html/.env"
         }
       ],
-      "name": "GmaxHelmetLaravel"
+      "name": "GmaxHelmetsUsaLaravel"
     },
     {
       "essential": true,
-      "image": "wpsinc/gmaxhelmet-nginx:latest",
+      "image": "wpsinc/gmaxhelmetsusa-nginx:latest",
       "links": [
-        "GmaxHelmetPhpFpm"
+        "GmaxHelmetsUsaPhpFpm"
       ],
       "logConfiguration": {
         "logDriver": "json-file",
@@ -40,7 +40,7 @@
         }
       },
       "memory": 100,
-      "name": "GmaxHelmetNginx",
+      "name": "GmaxHelmetsUsaNginx",
       "portMappings": [
         {
           "hostPort": 60011,
@@ -49,13 +49,13 @@
       ],
       "volumesFrom": [
         {
-          "sourceContainer": "GmaxHelmetLaravel"
+          "sourceContainer": "GmaxHelmetsUsaLaravel"
         }
       ]
     },
     {
       "essential": true,
-      "image": "wpsinc/gmaxhelmet-php-fpm:latest",
+      "image": "wpsinc/gmaxhelmetsusa-php-fpm:latest",
       "logConfiguration": {
         "logDriver": "json-file",
         "options": {
@@ -63,10 +63,10 @@
         }
       },
       "memory": 200,
-      "name": "GmaxHelmetPhpFpm",
+      "name": "GmaxHelmetsUsaPhpFpm",
       "volumesFrom": [
         {
-          "sourceContainer": "GmaxHelmetLaravel"
+          "sourceContainer": "GmaxHelmetsUsaLaravel"
         }
       ]
     }
