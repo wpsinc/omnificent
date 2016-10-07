@@ -15,12 +15,6 @@
     },
     {
       "host": {
-        "sourcePath": "/home/ec2-user/web-settings/staging/highway21/settings.php"
-      },
-      "name": "VolumeHighway21"
-    },
-    {
-      "host": {
         "sourcePath": "/home/ec2-user/web-settings/staging/kabuto/settings.php"
       },
       "name": "VolumeKabutoUsa"
@@ -75,10 +69,6 @@
         {
           "sourceVolume": "VolumeFlyRacing",
           "containerPath": "/var/www/html/sites/flyracing/settings.php"
-        },
-        {
-          "sourceVolume": "VolumeHighway21",
-          "containerPath": "/var/www/html/sites/highway21/settings.php"
         },
         {
           "sourceVolume": "VolumeKabutoUsa",
