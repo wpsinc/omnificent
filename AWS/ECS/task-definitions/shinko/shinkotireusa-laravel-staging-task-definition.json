@@ -1,0 +1,74 @@
+{
+  "family": "shinkotireusa-laravel-staging-task-definition",
+  "volumes": [
+    {
+      "host": {
+        "sourcePath": "/home/ec2-user/web-settings/staging/shinkotireusa-laravel/.env"
+      },
+      "name": "ShinkoTireUsaVolume"
+    }
+  ],
+  "containerDefinitions": [
+    {
+      "essential": true,
+      "image": "wpsinc/shinkotireusa-laravel:%REVISION%",
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 100,
+      "mountPoints": [
+        {
+          "sourceVolume": "ShinkoTireUsaVolume",
+          "containerPath": "/var/www/html/.env"
+        }
+      ],
+      "name": "ShinkoTireUsaLaravel"
+    },
+    {
+      "essential": true,
+      "image": "wpsinc/shinkotireusa-nginx:latest",
+      "links": [
+        "ShinkoTireUsaPhpFpm"
+      ],
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 100,
+      "name": "ShinkoTireUsaNginx",
+      "portMappings": [
+        {
+          "hostPort": 50008,
+          "containerPort": 80
+        }
+      ],
+      "volumesFrom": [
+        {
+          "sourceContainer": "ShinkoTireUsaLaravel"
+        }
+      ]
+    },
+    {
+      "essential": true,
+      "image": "wpsinc/shinkotireusa-php-fpm:latest",
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 200,
+      "name": "ShinkoTireUsaPhpFpm",
+      "volumesFrom": [
+        {
+          "sourceContainer": "ShinkoTireUsaLaravel"
+        }
+      ]
+    }
+  ]
+}
