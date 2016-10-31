@@ -32,5 +32,3 @@ su - ec2-user -c "aws s3 cp s3://web-settings/staging /home/ec2-user/web-setting
 curl https://amazon-ssm-us-west-2.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm -o amazon-ssm-agent.rpm
 yum install -y amazon-ssm-agent.rpm
 
-# Pull the latest Spotify garbage collection image so we can run it on deployment later.
-docker pull spotify/docker-gc:latest
