@@ -1,0 +1,74 @@
+{
+  "family": "sedonatires-laravel-production-task-definition",
+  "volumes": [
+    {
+      "host": {
+        "sourcePath": "/home/ec2-user/web-settings/production/sedonatires-laravel/.env"
+      },
+      "name": "SedonaTiresVolume"
+    }
+  ],
+  "containerDefinitions": [
+    {
+      "essential": true,
+      "image": "wpsinc/sedonatires-laravel:%REVISION%",
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 100,
+      "mountPoints": [
+        {
+          "sourceVolume": "SedonaTiresVolume",
+          "containerPath": "/var/www/html/.env"
+        }
+      ],
+      "name": "SedonaTiresLaravel"
+    },
+    {
+      "essential": true,
+      "image": "wpsinc/sedonatires-nginx:latest",
+      "links": [
+        "SedonaTiresPhpFpm"
+      ],
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 100,
+      "name": "SedonaTiresNginx",
+      "portMappings": [
+        {
+          "hostPort": 60010,
+          "containerPort": 80
+        }
+      ],
+      "volumesFrom": [
+        {
+          "sourceContainer": "SedonaTiresLaravel"
+        }
+      ]
+    },
+    {
+      "essential": true,
+      "image": "wpsinc/sedonatires-php-fpm:latest",
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 200,
+      "name": "SedonaTiresPhpFpm",
+      "volumesFrom": [
+        {
+          "sourceContainer": "SedonaTiresLaravel"
+        }
+      ]
+    }
+  ]
+}
