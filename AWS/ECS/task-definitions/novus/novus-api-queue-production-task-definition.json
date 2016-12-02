@@ -1,0 +1,57 @@
+{
+  "family": "novus-api-queue-production-task-definition",
+  "volumes": [
+    {
+      "host": {
+        "sourcePath": "/home/ec2-user/web-settings/production/novus-api-laravel/.env"
+      },
+      "name": "VolumeNovusApi"
+    }
+  ],
+  "containerDefinitions": [
+    {
+      "essential": true,
+      "image": "wpsinc/novus-api-laravel:latest",
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 100,
+      "mountPoints": [
+        {
+          "sourceVolume": "VolumeNovusApi",
+          "containerPath": "/var/www/html/.env"
+        }
+      ],
+      "name": "NovusApiLaravel"
+    },
+    {
+      "command": [
+        "php",
+        "artisan",
+        "queue:listen",
+        "database",
+        "--timeout=10800",
+        "--tries=1",
+        "--verbose"
+      ],
+      "essential": true,
+      "image": "wpsinc/novus-api-queue:%REVISION%",
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 1000,
+      "name": "NovusApiQueue",
+      "volumesFrom": [
+        {
+          "sourceContainer": "NovusApiLaravel"
+        }
+      ]
+    }
+  ]
+}
