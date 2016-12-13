@@ -1,0 +1,74 @@
+{
+  "family": "wps-inc-laravel-staging-task-definition",
+  "volumes": [
+    {
+      "host": {
+        "sourcePath": "/home/ec2-user/web-settings/staging/wps-inc-laravel/.env"
+      },
+      "name": "WpsIncVolume"
+    }
+  ],
+  "containerDefinitions": [
+    {
+      "essential": true,
+      "image": "wpsinc/wps-inc-laravel:%REVISION%",
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 100,
+      "mountPoints": [
+        {
+          "sourceVolume": "WpsIncVolume",
+          "containerPath": "/var/www/html/.env"
+        }
+      ],
+      "name": "WpsIncLaravel"
+    },
+    {
+      "essential": true,
+      "image": "wpsinc/wps-inc-nginx:latest",
+      "links": [
+        "WpsIncPhpFpm"
+      ],
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 100,
+      "name": "WpsIncNginx",
+      "portMappings": [
+        {
+          "hostPort": 50013,
+          "containerPort": 80
+        }
+      ],
+      "volumesFrom": [
+        {
+          "sourceContainer": "WpsIncLaravel"
+        }
+      ]
+    },
+    {
+      "essential": true,
+      "image": "wpsinc/wps-inc-php-fpm:latest",
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 200,
+      "name": "WpsIncPhpFpm",
+      "volumesFrom": [
+        {
+          "sourceContainer": "WpsIncLaravel"
+        }
+      ]
+    }
+  ]
+}
