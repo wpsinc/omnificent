@@ -62,7 +62,7 @@
           "max-size": "50m"
         }
       },
-      "memory": 600,
+      "memory": 800,
       "name": "NovusApiPhpFpm",
       "portMappings": [],
       "volumesFrom": [
