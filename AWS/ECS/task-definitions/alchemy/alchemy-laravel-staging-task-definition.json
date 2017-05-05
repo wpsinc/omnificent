@@ -11,29 +11,6 @@
   "containerDefinitions": [
     {
       "essential": true,
-      "image": "wpsinc/alchemy-apache-php:latest",
-      "logConfiguration": {
-        "logDriver": "json-file",
-        "options": {
-          "max-size": "50m"
-        }
-      },
-      "memory": 200,
-      "name": "AlchemyApachePhp",
-      "portMappings": [
-        {
-          "hostPort": 50001,
-          "containerPort": 80
-        }
-      ],
-      "volumesFrom": [
-        {
-          "sourceContainer": "AlchemyLaravel"
-        }
-      ]
-    },
-    {
-      "essential": true,
       "image": "wpsinc/alchemy-laravel:%REVISION%",
       "logConfiguration": {
         "logDriver": "json-file",
@@ -49,6 +26,49 @@
         }
       ],
       "name": "AlchemyLaravel"
+    },
+    {
+      "essential": true,
+      "image": "wpsinc/alchemy-nginx:latest",
+      "links": [
+        "AlchemyPhpFpm"
+      ],
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 100,
+      "name": "AlchemyNginx",
+      "portMappings": [
+        {
+          "hostPort": 50001,
+          "containerPort": 80
+        }
+      ],
+      "volumesFrom": [
+        {
+          "sourceContainer": "AlchemyLaravel"
+        }
+      ]
+    },
+    {
+      "essential": true,
+      "image": "wpsinc/alchemy-php-fpm:latest",
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 200,
+      "name": "AlchemyPhpFpm",
+      "volumesFrom": [
+        {
+          "sourceContainer": "AlchemyLaravel"
+        }
+      ]
     }
   ]
 }
