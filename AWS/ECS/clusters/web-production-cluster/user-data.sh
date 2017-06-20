@@ -32,4 +32,20 @@ su - ec2-user -c "aws s3 cp s3://web-settings/production /home/ec2-user/web-sett
 curl https://amazon-ssm-us-west-2.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm -o amazon-ssm-agent.rpm
 yum install -y amazon-ssm-agent.rpm
 
-su - ec2-user -c "aws ec2 create-tags --region=us-west-2 --resources `curl http://169.254.169.254/latest/meta-data/instance-id` --tags 'Key=Name,Value=web-production-cluster SPOT (Fleet)'"
+su - ec2-user -c "aws ec2 create-tags --region=us-west-2 --resources `curl http://169.254.169.254/latest/meta-data/instance-id` --tags 'Key=Name,Value=web-production-cluster'"
+
+####################################################################################################################################################################################
+
+#!/bin/bash
+echo ECS_CLUSTER=web-production-cluster >> /etc/ecs/ecs.config
+cd /tmp
+cat /etc/ecs/ecs.config | grep -v 'ECS_ENGINE_TASK_CLEANUP_WAIT_DURATION' > /tmp/ecs.config
+echo "ECS_ENGINE_TASK_CLEANUP_WAIT_DURATION=10m" >> /tmp/ecs.config
+mv -f /tmp/ecs.config /etc/ecs/
+curl -O https://bootstrap.pypa.io/get-pip.py
+python27 get-pip.py
+/usr/local/bin/pip install --upgrade awscli
+su - ec2-user -c "aws s3 cp s3://web-settings/production /home/ec2-user/web-settings/production --recursive"
+curl https://amazon-ssm-us-west-2.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm -o amazon-ssm-agent.rpm
+yum install -y amazon-ssm-agent.rpm
+su - ec2-user -c "aws ec2 create-tags --region=us-west-2 --resources `curl http://169.254.169.254/latest/meta-data/instance-id` --tags 'Key=Name,Value=web-production-cluster'"
