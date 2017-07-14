@@ -25,13 +25,13 @@
           "containerPath": "/var/www/html/.env"
         }
       ],
-      "name": "NovusApiLaravel"
+      "name": "novus-api-laravel"
     },
     {
       "essential": true,
       "image": "wpsinc/novus-api-nginx:latest",
       "links": [
-        "NovusApiPhpFpm"
+        "novus-api-php-fpm"
       ],
       "logConfiguration": {
         "logDriver": "json-file",
@@ -40,7 +40,7 @@
         }
       },
       "memory": 100,
-      "name": "NovusApiNginx",
+      "name": "novus-api-nginx",
       "portMappings": [
         {
           "hostPort": 50004,
@@ -49,7 +49,7 @@
       ],
       "volumesFrom": [
         {
-          "sourceContainer": "NovusApiLaravel"
+          "sourceContainer": "novus-api-laravel"
         }
       ]
     },
@@ -63,11 +63,11 @@
         }
       },
       "memory": 200,
-      "name": "NovusApiPhpFpm",
+      "name": "novus-api-php-fpm",
       "portMappings": [],
       "volumesFrom": [
         {
-          "sourceContainer": "NovusApiLaravel"
+          "sourceContainer": "novus-api-laravel"
         }
       ]
     }
