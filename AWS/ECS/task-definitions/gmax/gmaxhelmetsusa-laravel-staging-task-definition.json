@@ -25,13 +25,13 @@
           "containerPath": "/var/www/html/.env"
         }
       ],
-      "name": "gmaxhelmetsusa-laravel"
+      "name": "GmaxHelmetsUsaLaravel"
     },
     {
       "essential": true,
       "image": "wpsinc/gmaxhelmetsusa-nginx:latest",
       "links": [
-        "gmaxhelmetsusa-php-fpm"
+        "GmaxHelmetsUsaPhpFpm"
       ],
       "logConfiguration": {
         "logDriver": "json-file",
@@ -40,7 +40,7 @@
         }
       },
       "memory": 100,
-      "name": "gmaxhelmetsusa-nginx",
+      "name": "GmaxHelmetsUsaNginx",
       "portMappings": [
         {
           "hostPort": 50011,
@@ -49,7 +49,7 @@
       ],
       "volumesFrom": [
         {
-          "sourceContainer": "gmaxhelmetsusa-laravel"
+          "sourceContainer": "GmaxHelmetsUsaLaravel"
         }
       ]
     },
@@ -63,10 +63,10 @@
         }
       },
       "memory": 200,
-      "name": "gmaxhelmetsusa-php-fpm",
+      "name": "GmaxHelmetsUsaPhpFpm",
       "volumesFrom": [
         {
-          "sourceContainer": "gmaxhelmetsusa-laravel"
+          "sourceContainer": "GmaxHelmetsUsaLaravel"
         }
       ]
     }
