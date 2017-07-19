@@ -25,7 +25,7 @@
           "containerPath": "/var/www/html/.env"
         }
       ],
-      "name": "novus-api-laravel"
+      "name": "NovusApiLaravel"
     },
     {
       "command": [
@@ -46,10 +46,10 @@
         }
       },
       "memory": 1000,
-      "name": "novus-api-queue",
+      "name": "NovusApiQueue",
       "volumesFrom": [
         {
-          "sourceContainer": "novus-api-laravel"
+          "sourceContainer": "NovusApiLaravel"
         }
       ]
     }

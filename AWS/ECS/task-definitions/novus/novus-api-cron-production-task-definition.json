@@ -19,10 +19,10 @@
         }
       },
       "memory": 100,
-      "name": "novus-api-cron",
+      "name": "NovusApiCron",
       "volumesFrom": [
         {
-          "sourceContainer": "novus-api-laravel"
+          "sourceContainer": "NovusApiLaravel"
         }
       ]
     },
@@ -42,7 +42,7 @@
           "containerPath": "/var/www/html/.env"
         }
       ],
-      "name": "novus-api-laravel"
+      "name": "NovusApiLaravel"
     }
   ]
 }
