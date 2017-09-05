@@ -45,7 +45,7 @@
           "max-size": "50m"
         }
       },
-      "memory": 1000,
+      "memory": 3000,
       "name": "NovusApiQueue",
       "volumesFrom": [
         {
