@@ -1,0 +1,74 @@
+{
+  "family": "firepowerparts-laravel-staging-task-definition",
+  "volumes": [
+    {
+      "host": {
+        "sourcePath": "/home/ec2-user/web-settings/staging/firepowerparts-laravel/.env"
+      },
+      "name": "FirePowerPartsVolume"
+    }
+  ],
+  "containerDefinitions": [
+    {
+      "essential": true,
+      "image": "wpsinc/firepowerparts-laravel:%REVISION%",
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 100,
+      "mountPoints": [
+        {
+          "sourceVolume": "FirePowerPartsVolume",
+          "containerPath": "/var/www/html/.env"
+        }
+      ],
+      "name": "FirePowerPartsLaravel"
+    },
+    {
+      "essential": true,
+      "image": "wpsinc/firepowerparts-nginx:latest",
+      "links": [
+        "FirePowerPartsPhpFpm"
+      ],
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 100,
+      "name": "FirePowerPartsNginx",
+      "portMappings": [
+        {
+          "hostPort": 50014,
+          "containerPort": 80
+        }
+      ],
+      "volumesFrom": [
+        {
+          "sourceContainer": "FirePowerPartsLaravel"
+        }
+      ]
+    },
+    {
+      "essential": true,
+      "image": "wpsinc/firepowerparts-php-fpm:latest",
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m"
+        }
+      },
+      "memory": 200,
+      "name": "FirePowerPartsPhpFpm",
+      "volumesFrom": [
+        {
+          "sourceContainer": "FirePowerPartsLaravel"
+        }
+      ]
+    }
+  ]
+}
