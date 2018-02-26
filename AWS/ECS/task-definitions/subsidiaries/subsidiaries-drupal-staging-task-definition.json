@@ -15,24 +15,6 @@
     },
     {
       "host": {
-        "sourcePath": "/home/ec2-user/web-settings/staging/kabuto/settings.php"
-      },
-      "name": "VolumeKabutoUsa"
-    },
-    {
-      "host": {
-        "sourcePath": "/home/ec2-user/web-settings/staging/sedonatires/settings.php"
-      },
-      "name": "VolumeSedonaTires"
-    },
-    {
-      "host": {
-        "sourcePath": "/home/ec2-user/web-settings/staging/shinkotireusa/settings.php"
-      },
-      "name": "VolumeShinkoTireUsa"
-    },
-    {
-      "host": {
         "sourcePath": "/home/ec2-user/web-settings/staging/triple9optics/settings.php"
       },
       "name": "VolumeTriple9Optics"
@@ -42,12 +24,6 @@
         "sourcePath": "/home/ec2-user/web-settings/staging/wps-inc/settings.php"
       },
       "name": "VolumeWpsInc"
-    },
-    {
-      "host": {
-        "sourcePath": "/home/ec2-user/web-settings/staging/wpsgarage/settings.php"
-      },
-      "name": "VolumeWpsGarage"
     }
   ],
   "containerDefinitions": [
@@ -60,7 +36,7 @@
           "max-size": "50m"
         }
       },
-      "memory": 100,
+      "memoryReservation": 25,
       "mountPoints": [
         {
           "sourceVolume": "VolumeDefault",
@@ -71,18 +47,6 @@
           "containerPath": "/var/www/html/sites/flyracing/settings.php"
         },
         {
-          "sourceVolume": "VolumeKabutoUsa",
-          "containerPath": "/var/www/html/sites/kabuto/settings.php"
-        },
-        {
-          "sourceVolume": "VolumeSedonaTires",
-          "containerPath": "/var/www/html/sites/sedonatires/settings.php"
-        },
-        {
-          "sourceVolume": "VolumeShinkoTireUsa",
-          "containerPath": "/var/www/html/sites/shinkotireusa/settings.php"
-        },
-        {
           "sourceVolume": "VolumeTriple9Optics",
           "containerPath": "/var/www/html/sites/triple9optics/settings.php"
         },
@@ -90,10 +54,6 @@
           "sourceVolume": "VolumeWpsInc",
           "containerPath": "/var/www/html/sites/wps-inc/settings.php"
         },
-        {
-          "sourceVolume": "VolumeWpsGarage",
-          "containerPath": "/var/www/html/sites/wpsgarage/settings.php"
-        }
       ],
       "name": "SubsidiariesDrupal"
     },
@@ -109,7 +69,7 @@
           "max-size": "50m"
         }
       },
-      "memory": 200,
+      "memoryReservation": 75,
       "name": "SubsidiariesNginx",
       "portMappings": [
         {
@@ -132,7 +92,7 @@
           "max-size": "50m"
         }
       },
-      "memory": 600,
+      "memoryReservation": 100,
       "name": "SubsidiariesPhpFpm",
       "volumesFrom": [
         {
