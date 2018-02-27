@@ -53,7 +53,7 @@
         {
           "sourceVolume": "VolumeWpsInc",
           "containerPath": "/var/www/html/sites/wps-inc/settings.php"
-        },
+        }
       ],
       "name": "SubsidiariesDrupal"
     },
