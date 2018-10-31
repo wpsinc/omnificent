@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # Shell script to remove unused Docker images.
-# @author: "Austin Maddox" <amaddox@wps-inc.com>
 #
 # By default, Docker caches images indefinitely. Cached images can be useful to reduce the time needed to launch new tasks: if the image is cached, the container can be started from the cache. If you have a lot of images that are rarely used, as is common in CI or development environments, then cleaning these out is a good idea.
 
