@@ -1,8 +1,6 @@
 #!/bin/bash
 
 # Delete recursively all the foreign language files that ckeditor comes with.
-#
-# @author: "Austin Maddox" <austin@maddoxbox.com>
 
 if [ $# -lt 1 ]; then
     echo "Usage: ./delete-lang-files.sh (dryrun|production)"
