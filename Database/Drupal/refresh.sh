@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # Shell script to export production databases and import them into staging databases.
-# @author: "Austin Maddox" <amaddox@wps-inc.com>
 
 if [ $# -lt 8 ]
 then
