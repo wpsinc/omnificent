@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # Shell script to deploy an application using the ECS API via the AWS CLI.
-# @author: "Austin Maddox" <amaddox@wps-inc.com>
 
 if [ $# -lt 7 ]; then
     echo "Usage: deploy.sh <revision> <cluster> <region> <service> <task-definition-file> <task-definition> <family>"
