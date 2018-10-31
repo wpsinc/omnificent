@@ -2,8 +2,6 @@
 
 # Grant or revoke security group access to a whole entire region range of IP addresses.
 #
-# @author: "Austin Maddox" <amaddox@wps-inc.com>
-#
 # This script absolutely has a high likelihood of breaking in the future. AWS could change their IP address ranges at any time.
 # It would probably be best to build this from the JSON file that AWS publishes and updates periodically instead of hard-coding them here.
 # Read more: http://docs.aws.amazon.com/general/latest/gr/aws-ip-ranges.html
